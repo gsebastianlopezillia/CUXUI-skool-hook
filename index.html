@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>comunidad UXUI</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --uxui-pink: #E91E8C;
+            --uxui-pink-hover: #c41a78;
+            --uxui-black: #1a1a1a;
+            --uxui-white: #ffffff;
+        }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--uxui-white);
+            color: var(--uxui-black);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .container {
+            max-width: 480px;
+            padding: 2.5rem 1.5rem;
+        }
+        .logo {
+            margin-bottom: 2rem;
+        }
+        .logo img {
+            max-width: 220px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .logo-text {
+            font-size: 1.75rem;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .logo-text .comunidad {
+            display: block;
+            font-weight: 400;
+            color: var(--uxui-black);
+            text-transform: lowercase;
+        }
+        .logo-text .uxui {
+            display: block;
+            font-weight: 700;
+            color: var(--uxui-pink);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .tagline {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+        .cta-button {
+            display: inline-block;
+            background: var(--uxui-pink);
+            color: var(--uxui-white);
+            padding: 0.9rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        .cta-button:hover {
+            background: var(--uxui-pink-hover);
+            transform: translateY(-1px);
+        }
+        .admin-link {
+            position: fixed;
+            bottom: 1rem;
+            left: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            color: var(--uxui-black);
+            opacity: 0.35;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: opacity 0.2s ease, color 0.2s ease, background 0.2s ease;
+        }
+        .admin-link:hover,
+        .admin-link:focus {
+            opacity: 1;
+            color: var(--uxui-pink);
+            background: rgba(233, 30, 140, 0.08);
+        }
+        .admin-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="assets/logoCUXUI.png" alt="comunidad UXUI" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';">
+            <div id="logoFallback" class="logo-text" style="display: none;">
+                <span class="comunidad">comunidad</span>
+                <span class="uxui">UXUI</span>
+            </div>
+        </div>
+        <p class="tagline">Plataforma de recursos multimedia de la comunidad</p>
+
+        <a href="https://www.skool.com/comunidaduxui" class="cta-button" onclick="trackSkoolRedirect()">
+            Ir a la comunidad
+        </a>
+    </div>
+
+    <a href="admin.html" class="admin-link" title="Panel de administración" aria-label="Panel de administración" onclick="trackAdminAccess()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </a>
+
+    <!-- Firebase Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script>
+        // Firebase Config for Analytics
+        const firebaseConfig = {
+            apiKey: "AIzaSyBeCNeJQpZ86UKxVKfJkowAbSgaMAFBfe0",
+            authDomain: "cuxui-skool-router.firebaseapp.com",
+            projectId: "cuxui-skool-router",
+            storageBucket: "cuxui-skool-router.firebasestorage.app",
+            messagingSenderId: "401192401910",
+            appId: "1:401192401910:web:cd9383e75d5dbcc6c925d7",
+            measurementId: "G-KZTPP6TJ2M"
+        };
+
+        // Initialize Firebase Analytics
+        firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
+
+        // Track page view
+        analytics.logEvent('page_view', {
+            page_title: 'Landing Page',
+            page_location: window.location.href
+        });
+
+        // Track Skool redirect
+        function trackSkoolRedirect() {
+            analytics.logEvent('skool_redirect', {
+                event_category: 'engagement',
+                event_label: 'landing_to_skool'
+            });
+            console.log('📊 Tracked: Skool redirect');
+        }
+
+        // Track admin access
+        function trackAdminAccess() {
+            analytics.logEvent('admin_access', {
+                event_category: 'navigation',
+                event_label: 'landing_to_admin'
+            });
+            console.log('📊 Tracked: Admin panel access');
+        }
+
+        console.log('✅ Firebase Analytics loaded on landing page');
+    </script>
+</body>
+</html>

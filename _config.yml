@@ -1,0 +1,28 @@
+# GitHub Pages configuration
+title: CUXUI Media Host
+description: Media hosting for CUXUI Skool Hook
+url: "https://gseba.github.io"
+baseurl: "/CUXUI-Skool-Hook"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - .bundle/
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+
+# Include assets
+include:
+  - assets/
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap

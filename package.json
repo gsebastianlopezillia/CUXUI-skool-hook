@@ -1,0 +1,28 @@
+{
+  "name": "cuxui-media-host",
+  "version": "1.0.0",
+  "description": "Media hosting admin interface for GitHub Pages",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "dev:windows": "python -m http.server 8000",
+    "test": "node test.js",
+    "deploy": "git add . && git commit -m 'Deploy updates' && git push",
+    "clean": "rm -rf assets/*/"
+  },
+  "dependencies": {
+    "firebase": "^9.22.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gseba/CUXUI-Skool-Hook.git"
+  },
+  "keywords": [
+    "media-hosting",
+    "github-pages",
+    "file-upload",
+    "javascript"
+  ],
+  "author": "CUXUI",
+  "license": "MIT"
+}
