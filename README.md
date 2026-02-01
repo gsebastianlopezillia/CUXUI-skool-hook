@@ -1,103 +1,25 @@
 # CUXUI Media Host
 
-Sistema simple para subir archivos multimedia y obtener URLs permanentes. Landing redirige a Skool; panel admin con login Firebase para subir y copiar links.
+Landing con link a Skool; panel admin (login Supabase) para subir archivos, listar y copiar link. Archivos en Supabase Storage; metadatos en Postgres.
 
-## Funcionalidad
+## Uso
 
-- **Landing**: comunidad UXUI, link a Skool; acceso al panel por icono en esquina inferior izquierda.
-- **Panel admin**: login (Firebase Auth), subir archivos (máx. 5 MB), listar y copiar link. Archivos en Firebase Storage; metadatos en Firestore.
-
-## Cómo usar
-
-1. Abrí la raíz del sitio (local: `http://localhost:8000/` o la URL de GitHub Pages).
-2. Para el panel: icono de engranaje abajo a la izquierda → inicia sesión con tu cuenta Firebase.
-3. Subí archivos arrastrando o eligiendo; copiá el link de cada uno.
-
-## Desarrollo local
-
-```bash
-npm install   # si hace falta
-python -m http.server 8000
-```
-
-Abrir `http://localhost:8000/`.
+1. Servir la raíz (local: `python -m http.server 8000` o GitHub Pages).
+2. Admin: icono engranaje → login con usuario Supabase → subir, copiar link, eliminar.
 
 ## Configuración
 
-- **Firebase**: `firebase-config.js` (en el repo para GitHub Pages). Usuarios en Firebase Console → Authentication.
-- **Reglas**: Firestore y Storage deben estar en modo producción (ver abajo).
+- **supabase-config.js**: copiar desde `supabase-config.example.js`. Completar SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_BUCKET (Dashboard → Settings → API; Storage → bucket).
+- **Supabase**: ejecutar [supabase/setup.sql](supabase/setup.sql) en SQL Editor (tabla `files`, RLS, políticas Storage, función `soft_delete_file`). Bucket público.
+- **Auth**: Authentication → Providers → Email → **Enable email signups** OFF. Usuarios solo desde Dashboard → Users → Add user.
 
-## Estructura del proyecto
+## Purga (opcional)
 
-```
-├── index.html
-├── admin.html
-├── firebase-config.js
-├── firebase-config.example.js
-├── assets/           # logo, favicon
-├── css/admin.css
-├── js/
-│   ├── auth-simple.js
-│   └── admin-simple.js
-├── .github/workflows/
-└── README.md
-```
+Borrado en el admin es lógico (`deleted_at`). Para borrar definitivamente lo marcado hace más de 5 días: desplegar Edge Function `cleanup-deleted` y programar cron diario; ver [supabase/cron-cleanup-deleted.sql](supabase/cron-cleanup-deleted.sql).
 
----
+## Checklist
 
-## Producción: reglas Firebase y GitHub Pages
-
-La config de Firebase en el repo es pública; la seguridad depende de las **reglas** en Firebase Console.
-
-### Reglas de Firestore
-
-1. Firebase Console → proyecto → **Firestore Database** → pestaña **Rules**.
-2. Reemplazá todo por:
-
-```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /files/{fileId} {
-      allow create: if request.auth != null;
-      allow read, update, delete: if request.auth != null && resource.data.ownerId == request.auth.uid;
-    }
-  }
-}
-```
-
-3. **Publicar**.
-
-### Reglas de Storage
-
-1. Firebase Console → **Storage** → pestaña **Rules**.
-2. Reemplazá todo por:
-
-```
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /users/{userId}/{allPaths=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
-```
-
-3. **Publicar**.
-
-### Dominios autorizados
-
-Firebase Console → **Authentication** → **Settings** → **Authorized domains**: que estén `localhost` y tu dominio de Pages (ej. `gseba.github.io`).
-
-### GitHub Pages
-
-1. Repo → **Settings** → **Pages** → Source: **Deploy from a branch** → rama `main`, carpeta **/ (root)** → Save.
-2. El sitio queda en `https://<usuario>.github.io/<repo>/`.
-
-### Checklist producción
-
-- [ ] Firestore Rules publicadas (create + read/update/delete por `ownerId`).
-- [ ] Storage Rules publicadas (`users/{userId}/...`, `request.auth.uid == userId`).
-- [ ] Authorized domains con localhost y dominio de Pages.
-- [ ] GitHub Pages activado; probar login, subida y link en la URL pública.
+- [ ] supabase-config.js con URL, anon key, bucket.
+- [ ] setup.sql ejecutado; bucket creado y público.
+- [ ] Email signups OFF; usuarios creados en Dashboard.
+- [ ] Probar login, subida y link.

@@ -1,22 +1,36 @@
-// Simple Firebase Authentication
+// Supabase Authentication
 class SimpleAuth {
     constructor() {
+        this.supabase = window.supabaseClient;
         this.init();
     }
 
-    init() {
-        // Listen for auth state changes
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                console.log("✅ User authenticated:", user.email);
+    async init() {
+        if (!this.supabase) {
+            console.warn("Supabase not configured. Check supabase-config.js");
+            this.showLoginModal();
+            return;
+        }
+        this.supabase.auth.onAuthStateChange((event, session) => {
+            if (session?.user) {
                 this.hideLoginShowAdmin();
             } else {
                 this.showLoginModal();
             }
         });
+        const { data: { session } } = await this.supabase.auth.getSession();
+        if (session?.user) {
+            this.hideLoginShowAdmin();
+        } else {
+            this.showLoginModal();
+        }
     }
 
     showLoginModal() {
+        const adminEl = document.getElementById('adminContent');
+        if (adminEl) adminEl.style.display = 'none';
+        const existing = document.querySelector('.auth-modal');
+        if (existing) return;
         const modal = document.createElement('div');
         modal.className = 'auth-modal';
         modal.innerHTML = `
@@ -62,14 +76,19 @@ class SimpleAuth {
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!this.supabase) {
+                alert('Supabase no configurado. Revisá supabase-config.js');
+                return;
+            }
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             try {
-                await firebase.auth().signInWithEmailAndPassword(email, password);
+                const { error } = await this.supabase.auth.signInWithPassword({ email, password });
+                if (error) throw error;
                 modal.remove();
             } catch (error) {
-                alert('Login failed: ' + error.message);
+                alert('Error al entrar: ' + (error.message || error));
             }
         });
     }
@@ -86,12 +105,11 @@ class SimpleAuth {
 
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
-            logoutBtn.onclick = () => firebase.auth().signOut();
+            logoutBtn.onclick = () => this.supabase.auth.signOut();
         }
     }
 }
 
-// Initialize auth when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     window.authSimple = new SimpleAuth();
 });
