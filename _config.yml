@@ -1,4 +1,4 @@
 title: CUXUI Media Host
-url: "https://gseba.github.io"
-baseurl: "/CUXUI-Skool-Hook"
+url: "https://gsebastianlopezillia.github.io"
+baseurl: "/CUXUI-skool-hook"
 exclude: [Gemfile, Gemfile.lock, node_modules, vendor]
